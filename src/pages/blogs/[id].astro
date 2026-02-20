@@ -28,10 +28,10 @@ const pageBlog = imageModule?.default;
 	<Background src={pageBlog} id={blog.id} transition:name=`background ${id}` />
 	<main>
 		<h1 transition:name=`title ${id}`>{blog.title}</h1>
-		<span class="blog-meta">
-			<p>{blog.author} | {blog.date}</p>
-		</span>
 		<section>
+			<p class="blog-meta">
+				{blog.author} | {blog.date}
+			</p>
 			{
 				blog.content.map(
 					({ type, content }: { type: string; content: string }, i: number) => {

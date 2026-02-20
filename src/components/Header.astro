@@ -10,12 +10,11 @@ import logo from "../assets/logo.webp";
 			src={logo}
 			alt="Healthy Life"
 			width={80}
-			height={80}
 			format="webp"
 			loading="eager"
 		/>
 	</a>
-	<Reserve class="site-header__reserve" />
+	<Reserve class="site-header__reserve" loading="eager" />
 	<nav class="navbar">
 		<!-- Open Modal -->
 		<button
@@ -115,7 +114,7 @@ import logo from "../assets/logo.webp";
 
 	.site-header__logo img {
 		height: 5rem;
-		width: 5rem;
+		width: auto;
 	}
 	.navbar {
 		grid-area: nav;

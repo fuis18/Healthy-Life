@@ -1,7 +1,11 @@
 ---
 import whatsapp from "@/assets/whatsapp.svg";
 import { Image } from "astro:assets";
-const { class: className = "" } = Astro.props;
+interface Props {
+	class: string;
+	loading: "eager" | "lazy";
+}
+const { class: className = "", loading } = Astro.props;
 ---
 
 <a
@@ -10,12 +14,12 @@ const { class: className = "" } = Astro.props;
 	class={`reserve click_me ${className}`}
 	rel="noopener noreferrer"
 >
-	<Image src={whatsapp} alt="Healthy Reserve" height={50} width={50} />
+	<Image src={whatsapp} alt="Healthy Reserve" width={50} loading={loading} />
 	<span>Informate</span>
 </a>
 <style>
 	.reserve {
-		background: #2a5;
+		background: #294;
 		color: #fff;
 		font-weight: bold;
 		font-size: 16px;
@@ -26,6 +30,6 @@ const { class: className = "" } = Astro.props;
 	}
 	.reserve img {
 		height: 2rem;
-		width: 2rem;
+		width: auto;
 	}
 </style>
