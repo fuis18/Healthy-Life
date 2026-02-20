@@ -1,0 +1,145 @@
+---
+import Background from "@/components/ui/Background.astro";
+import Reserve from "@/components/ui/Reserve.astro";
+import Layout from "@/layouts/Layout.astro";
+import Blog from "@/components/ui/Blog.astro";
+import { blogs } from "@/data/blogs";
+import Product from "@/components/ui/Product.astro";
+import { products } from "@/data/products";
+import { team } from "@/data/team";
+import Galeria from "@/components/ui/Galeria.astro";
+import imgBackground from "@/assets/page-1.webp";
+
+const images = import.meta.glob<{ default: ImageMetadata }>(
+	"/src/assets/*.webp",
+);
+
+const blogsWithImages = await Promise.all(
+	blogs.map(async (blog) => ({
+		...blog,
+		imageSrc: (await images[`/src/assets${blog.image}`]?.())?.default,
+	})),
+);
+---
+
+<Layout title="Healthy Life">
+	<Background src={imgBackground} />
+	<main>
+		<section>
+			<h1>Descubre el Placer de Comer Saludable</h1>
+			<p>
+				En Healthy Life, transformamos la manera en que disfrutas los postres.
+				Nuestro enfoque está en ofrecerte delicias saludables que no comprometen
+				el sabor. Nuestro producto estrella, el Brownie con palta, es la
+				combinación perfecta de indulgencia y nutrición. Atrévete a transformar
+				tu estilo de vida con opciones que cuidan de ti.
+			</p>
+		</section>
+		<section id="Products">
+			<header>
+				<h2>Nuestros Deliciosos Postres Saludables</h2>
+				<p>
+					En Healthy Life te ofrecemos postres que cuidan de ti. Nuestros
+					brownies con palta combinan sabor y nutrición en cada bocado, para que
+					disfrutes sin culpa y con bienestar.
+				</p>
+			</header>
+			<div class="cards-content">
+				{
+					products.map((product) => (
+						<Product
+							title={product.title}
+							icon={product.icon}
+							src={product.src}
+						>
+							{product.content}
+						</Product>
+					))
+				}
+			</div>
+		</section>
+		<section id="Blog">
+			<h2>Publicaciones</h2>
+			<Galeria />
+			<div class="blogs cards-content">
+				{
+					blogsWithImages.map((blog) => (
+						<Blog src={blog.imageSrc} id={blog.id}>
+							{blog.title}
+						</Blog>
+					))
+				}
+			</div>
+		</section>
+		<section id="Sobre-Nosotros">
+			<header>
+				<h2>Sobre Nosotros</h2>
+				<p>
+					En Healthy Life, trabajamos con pasión para ofrecerte postres
+					saludables y deliciosos. Cada miembro de nuestro equipo aporta su
+					talento para crear brownies con palta que promueven un estilo de vida
+					equilibrado. 💚
+				</p>
+			</header>
+			<div class="team">
+				{
+					team.map((people) => (
+						<article class="team-card">
+							<h3>{people.name}</h3>
+							<span>{people.job}</span>
+						</article>
+					))
+				}
+			</div>
+		</section>
+	</main>
+	<footer id="Contacto">
+		<h2>Contáctanos</h2>
+		<p>
+			Si tienes preguntas sobre nuestros productos saludables o deseas realizar
+			un pedido especial, por favor completa el siguiente formulario. Estamos
+			aquí para ayudarte a disfrutar de una vida más saludable con nuestros
+			deliciosos postres.
+		</p>
+		<Reserve class="contact-link" />
+	</footer>
+</Layout>
+
+<style is:global>
+	.contact-link {
+		display: flex;
+		width: 10rem;
+		margin: 1rem auto;
+	}
+</style>
+
+<style>
+	.team {
+		display: flex;
+		gap: 24px;
+		justify-content: center;
+		flex-wrap: wrap;
+	}
+	.team-card {
+		background-color: #231f20;
+		border-radius: 20px;
+		color: #fff;
+		width: 420px;
+		min-height: 100px;
+		max-height: 300px;
+		padding: 30px 0;
+		display: grid;
+		gap: 1rem;
+	}
+	#Sobre-Nosotros {
+		text-align: center;
+	}
+	footer {
+		text-align: center;
+		background-color: #f4f2ff;
+		padding: 3rem 6rem;
+	}
+	footer p {
+		padding-top: 20px;
+	}
+</style>

@@ -1,0 +1,23 @@
+---
+import FooterIcons from "./ui/FooterIcons.astro";
+import FooterLinks from "./ui/FooterLinks.astro";
+---
+
+<footer class="site-footer">
+	<FooterLinks />
+	<FooterIcons />
+</footer>
+
+<style is:global>
+	.site-footer a {
+		color: #fff;
+	}
+</style>
+<style>
+	.site-footer {
+		background-color: #000;
+		padding: 45px;
+		display: grid;
+		gap: 25px;
+	}
+</style>

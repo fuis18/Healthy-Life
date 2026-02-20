@@ -1,0 +1,221 @@
+---
+import Reserve from "./ui/Reserve.astro";
+import { Image } from "astro:assets";
+import logo from "../assets/logo.webp";
+---
+
+<header class="site-header">
+	<a href="/" class="site-header__logo click_me">
+		<Image
+			src={logo}
+			alt="Healthy Life"
+			width={80}
+			height={80}
+			format="webp"
+			loading="eager"
+		/>
+	</a>
+	<Reserve class="site-header__reserve" />
+	<nav class="navbar">
+		<!-- Open Modal -->
+		<button
+			class="navbar__toggle navbar__toggle--open"
+			id="navbar-open"
+			aria-label="Abrir menú"
+		>
+			<svg viewBox="0 0 24 24" width="30" height="30">
+				<path d="M5 5v1.5h14V5H5zm0 7.8h14v-1.5H5v1.5zM5 19h14v-1.5H5V19z"
+				></path>
+			</svg>
+		</button>
+		<!-- Modal -->
+		<div class="navbar__modal" id="navbar-modal">
+			<!-- Close Modal -->
+			<button
+				class="navbar__toggle navbar__toggle--close"
+				id="navbar-close"
+				aria-label="Cerrar menú"
+			>
+				<svg viewBox="0 0 24 24" width="30" height="30">
+					<path
+						d="M13 11.8l6.1-6.3-1-1-6.1 6.2-6.1-6.2-1 1 6.1 6.3-6.5 6.7 1 1 6.5-6.6 6.5 6.6 1-1z"
+					></path>
+				</svg>
+			</button>
+			<ul class="navbar__list">
+				<li><a href="/#Products">Productos</a></li>
+				<li><a href="/#Blog">Blogs</a></li>
+				<li><a href="/#Sobre-Nosotros">Sobre Nosotros</a></li>
+			</ul>
+		</div>
+	</nav>
+</header>
+
+<script>
+	document.addEventListener("astro:page-load", () => {
+		const openBtn = document.getElementById("navbar-open");
+		const closeBtn = document.getElementById("navbar-close");
+		const modal = document.getElementById("navbar-modal");
+
+		function openModal() {
+			modal?.classList.replace("navbar__modal", "navbar__modal--open");
+			document.body.style.overflow = "hidden";
+		}
+
+		function closeModal() {
+			modal?.classList.replace("navbar__modal--open", "navbar__modal");
+			document.body.style.overflow = "";
+		}
+
+		openBtn?.addEventListener("click", openModal);
+		closeBtn?.addEventListener("click", closeModal);
+
+		document.querySelectorAll(".navbar__list a").forEach((link) => {
+			link.addEventListener("click", closeModal);
+		});
+
+		modal?.addEventListener("click", (e) => {
+			if (e.target === modal) {
+				closeModal();
+			}
+		});
+	});
+</script>
+
+<style is:global>
+	.site-header__reserve {
+		grid-area: reserve;
+		display: none;
+	}
+	@media (min-width: 450px) {
+		.site-header__reserve {
+			display: flex;
+		}
+	}
+	@media (min-width: 600px) {
+		.site-header__reserve {
+			display: flex;
+		}
+	}
+</style>
+<style>
+	.site-header {
+		background-color: #ead6ad;
+		align-items: center;
+		padding: 12px 24px;
+		display: grid;
+		justify-content: space-between;
+		gap: 30px;
+		grid-template: "logo nav" / 90px min-content;
+	}
+
+	.site-header__logo {
+		grid-area: logo;
+	}
+
+	.site-header__logo img {
+		height: 5rem;
+		width: 5rem;
+	}
+	.navbar {
+		grid-area: nav;
+	}
+
+	.navbar__modal {
+		display: none;
+	}
+
+	.navbar__modal--open {
+		position: fixed;
+		padding: 2rem;
+		inset: 0;
+		background-color: #fefdfa;
+		z-index: 10;
+		animation: fadeIn 0.4s ease forwards;
+	}
+
+	.navbar__modal--closing {
+		position: fixed;
+		padding: 2rem;
+		inset: 0;
+		background-color: #fefdfa;
+		z-index: 10;
+		animation: fadeOut 0.4s ease forwards;
+	}
+
+	.navbar__toggle {
+		height: 30px;
+		width: 30px;
+		border: none;
+		cursor: pointer;
+		background-color: transparent;
+	}
+
+	.navbar__list {
+		display: flex;
+		padding-top: 50px;
+		flex-direction: column;
+		align-items: center;
+		gap: 1rem;
+		font-size: 1.75rem;
+		list-style: none;
+	}
+	.navbar__list a {
+		color: #231f20;
+		text-align: center;
+	}
+
+	@media (min-width: 450px) {
+		.site-header {
+			gap: 30px;
+			grid-template: "logo reserve nav" / 90px 170px min-content;
+		}
+	}
+
+	@media (min-width: 910px) {
+		.site-header {
+			grid-template: "logo nav reserve" / 90px 1fr 170px;
+		}
+		.navbar__modal {
+			display: block;
+		}
+		.navbar__toggle {
+			display: none;
+		}
+		.navbar__list {
+			flex-direction: row;
+			padding: 0;
+			justify-content: center;
+			gap: 50px;
+			font-size: 1.125rem;
+		}
+	}
+
+	@media (min-width: 1300px) {
+		.navbar__list {
+			gap: 100px;
+		}
+	}
+
+	@keyframes fadeIn {
+		from {
+			opacity: 0;
+			transform: translateY(-20px);
+		}
+		to {
+			opacity: 1;
+			transform: translateY(0);
+		}
+	}
+
+	@keyframes fadeOut {
+		from {
+			opacity: 1;
+			transform: translateY(0);
+		}
+		to {
+			opacity: 0;
+			transform: translateY(-20px);
+		}
+	}
+</style>

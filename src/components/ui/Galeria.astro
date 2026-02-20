@@ -1,0 +1,77 @@
+---
+import { Image } from "astro:assets";
+
+const width = 400;
+const height = 180;
+
+const images = [
+	"/img/packj(1).webp",
+	"/img/packj(3).webp",
+	"/img/packj(5).webp",
+	"/img/packj(4).webp",
+	"/img/packj(6).webp",
+	"/img/packj(2).webp",
+	"/img/packj(1).webp",
+	"/img/packj(3).webp",
+	"/img/packj(5).webp",
+	"/img/packj(4).webp",
+	"/img/packj(6).webp",
+	"/img/packj(2).webp",
+];
+---
+
+<div class="scroll">
+	<div class="wrapper">
+		{
+			images.map((src) => (
+				<Image
+					src={src}
+					alt="Healthy Life"
+					width={width}
+					height={height}
+					class="item"
+					format="webp"
+					loading="lazy"
+				/>
+			))
+		}
+	</div>
+</div>
+
+<style>
+	.scroll {
+		overflow: hidden;
+		width: 100%;
+		mask-image: linear-gradient(
+			to right,
+			rgba(0, 0, 0, 0),
+			rgba(0, 0, 0, 1) 10%,
+			rgba(0, 0, 0, 1) 90%,
+			rgba(0, 0, 0, 0)
+		);
+	}
+
+	.wrapper {
+		display: flex;
+		width: max-content;
+		animation-name: scroll;
+		animation-duration: 30s;
+		animation-timing-function: linear;
+		animation-iteration-count: infinite;
+	}
+
+	.item {
+		height: 180px;
+		object-fit: contain;
+		flex-shrink: 0;
+	}
+
+	@keyframes scroll {
+		from {
+			transform: translateX(0);
+		}
+		to {
+			transform: translateX(-50%);
+		}
+	}
+</style>

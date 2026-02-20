@@ -1,0 +1,67 @@
+---
+import type { GetStaticPaths } from "astro";
+import { blogs } from "@/data/blogs";
+import Layout from "@/layouts/Layout.astro";
+import Background from "@/components/ui/Background.astro";
+import Share from "@/components/ui/Share.astro";
+import MoreBlogs from "@/components/MoreBlogs.astro";
+
+export const getStaticPaths = (() => {
+	return blogs.map((blog) => ({
+		params: { id: blog.id },
+		props: { blog },
+	}));
+}) satisfies GetStaticPaths;
+
+const { blog } = Astro.props;
+const { id } = Astro.params;
+
+const images = import.meta.glob<{ default: ImageMetadata }>(
+	"/src/assets/*.webp",
+);
+
+const imageModule = await images[`/src/assets${blog.image}`]?.();
+const pageBlog = imageModule?.default;
+---
+
+<Layout title="Healthy Life">
+	<Background src={pageBlog} id={blog.id} transition:name=`background ${id}` />
+	<main>
+		<h1 transition:name=`title ${id}`>{blog.title}</h1>
+		<span class="blog-meta">
+			<p>{blog.author} | {blog.date}</p>
+		</span>
+		<section>
+			{
+				blog.content.map(
+					({ type, content }: { type: string; content: string }, i: number) => {
+						const element = <span set:html={content} />;
+						switch (type) {
+							case "h":
+								return <h2>{element}</h2>;
+							case "l":
+								return (
+									<ul>
+										<li>{element}</li>
+									</ul>
+								);
+							default:
+								return <p>{element}</p>;
+						}
+					},
+				)
+			}
+		</section>
+		<section>
+			<Share href={id} />
+			<MoreBlogs hidden={id} />
+		</section>
+	</main>
+</Layout>
+
+<style>
+	main {
+		max-width: 750px;
+		margin: auto;
+	}
+</style>

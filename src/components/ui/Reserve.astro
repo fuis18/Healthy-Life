@@ -1,0 +1,31 @@
+---
+import whatsapp from "@/assets/whatsapp.svg";
+import { Image } from "astro:assets";
+const { class: className = "" } = Astro.props;
+---
+
+<a
+	href="https://wa.me/51953110458"
+	target="_blank"
+	class={`reserve click_me ${className}`}
+	rel="noopener noreferrer"
+>
+	<Image src={whatsapp} alt="Healthy Reserve" height={50} width={50} />
+	<span>Informate</span>
+</a>
+<style>
+	.reserve {
+		background: #2a5;
+		color: #fff;
+		font-weight: bold;
+		font-size: 16px;
+		border-radius: 50px;
+		align-items: center;
+		gap: 0.25em;
+		padding: 10px 24px;
+	}
+	.reserve img {
+		height: 2rem;
+		width: 2rem;
+	}
+</style>

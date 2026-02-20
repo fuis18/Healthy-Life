@@ -1,0 +1,33 @@
+---
+import { blogs } from "@/data/blogs";
+import Blog from "./ui/Blog.astro";
+
+interface Props {
+	hidden: string;
+}
+const { hidden } = Astro.props;
+const posts = blogs.filter((blog) => {
+	return blog.id !== hidden;
+});
+
+const images = import.meta.glob<{ default: ImageMetadata }>(
+	"/src/assets/*.webp",
+);
+
+const blogsWithImages = await Promise.all(
+	posts.map(async (blog) => ({
+		...blog,
+		imageSrc: (await images[`/src/assets${blog.image}`]?.())?.default,
+	})),
+);
+---
+
+<div class="blogs cards-content">
+	{
+		blogsWithImages.map((post) => (
+			<Blog src={post.imageSrc} id={post.id}>
+				{post.title}
+			</Blog>
+		))
+	}
+</div>
