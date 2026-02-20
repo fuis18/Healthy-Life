@@ -1,28 +1,29 @@
+---
+const data = [
+	{ name: "Britney Mogollon", title: "Dirección General" },
+	{
+		name: "Mariana Litano",
+		title: "Dirección del área de Finanzas y Administración",
+	},
+	{
+		name: "Lucia Vendetta",
+		title: "Dirección del área de Distribución y Logística",
+	},
+	{ name: "Ayleen Alburqueque", title: "Dirección del área de Producción" },
+	{ name: "Miguel Forfui", title: "Subdirector del área de Producción" },
+	{ name: "Celeste Huertas", title: "Dirección de Marketing y Ventas" },
+];
+---
+
 <div class="team">
-	<article class="team-card">
-		<h3>Britney Mogollon</h3>
-		<span>Dirección General</span>
-	</article>
-	<article class="team-card">
-		<h3>Mariana Litano</h3>
-		<span>Dirección del área de Finanzas y Administración</span>
-	</article>
-	<article class="team-card">
-		<h3>Lucia Vendetta</h3>
-		<span>Dirección del área de Distribución y Logística</span>
-	</article>
-	<article class="team-card">
-		<h3>Ayleen Alburqueque</h3>
-		<span>Dirección del área de Producción</span>
-	</article>
-	<article class="team-card">
-		<h3>Miguel Forfui</h3>
-		<span>Subdirector del área de Producción</span>
-	</article>
-	<article class="team-card">
-		<h3>Celeste Huertas</h3>
-		<span>Dirección de Marketing y Ventas</span>
-	</article>
+	{
+		data.map((content) => (
+			<article class="team-card">
+				<h3>{content.name}</h3>
+				<span>{content.title}</span>
+			</article>
+		))
+	}
 </div>
 
 <style>
@@ -34,7 +35,8 @@
 	}
 	.team-card {
 		display: grid;
-		background-color: #231f20;
+		/* background-color: #231f20; */
+		background-color: #f00;
 		border-radius: 20px;
 		color: #fff;
 		width: 320px;
