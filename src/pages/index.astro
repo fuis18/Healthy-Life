@@ -60,7 +60,6 @@ const blogsWithImages = await Promise.all(
 		</section>
 		<section id="Blog">
 			<h2>Publicaciones</h2>
-			<Galeria />
 			<div class="blogs cards-content">
 				{
 					blogsWithImages.map((blog) => (
@@ -70,6 +69,7 @@ const blogsWithImages = await Promise.all(
 					))
 				}
 			</div>
+			<Galeria />
 		</section>
 		<section id="Sobre-Nosotros">
 			<header>
@@ -102,8 +102,8 @@ const blogsWithImages = await Promise.all(
 				Estamos aquí para ayudarte a disfrutar de una vida más saludable con
 				nuestros deliciosos postres.
 			</p>
-			<Reserve class="contact-link" loading="lazy" />
 		</address>
+		<Reserve class="contact-link" loading="lazy" />
 	</footer>
 </Layout>
 

@@ -6,7 +6,7 @@ interface Props {
 	icon: string;
 	src: string;
 }
-const { title, icon } = Astro.props;
+const { title, icon, src } = Astro.props;
 ---
 
 <article class="product">
@@ -16,71 +16,139 @@ const { title, icon } = Astro.props;
 		width={80}
 		height={80}
 		format="webp"
-		loading="lazy"
+		class="product__icon"
 	/>
 	<h3>{title}</h3>
 	<p><slot /></p>
-	<button class="click_me">Información Nutricional</button>
-</article>
+	<button class="click_me btn-info" onclick="() => {openModal = !openModal}"
+		>Información Nutricional</button
+	>
+	<dialog class="product-dialog">
+		<div class="product-dialog--content">
+			<button class="dialog-close click_me" aria-label="Cerrar">✕</button>
+			<img src={src} alt={title} width={200} />
+		</div>
+	</dialog>
 
-<style>
-	.product {
-		background-color: #eee;
-		border-radius: 16px;
-		border: 1px solid #dde;
-		display: grid;
-		grid-template:
-			"h3"
-			"slot"
-			"btn";
-		padding: 30px;
-		justify-items: center;
-		column-gap: 10px;
-		align-items: center;
-	}
+	<script>
+		document.addEventListener("astro:page-load", () => {
+			document.querySelectorAll(".product").forEach((product) => {
+				const btn = product.querySelector(".btn-info");
+				const dialog = product.querySelector(
+					".product-dialog",
+				) as HTMLDialogElement;
+				const closeBtn = product.querySelector(".dialog-close");
 
-	img {
-		grid-area: img;
-		display: none;
-		max-width: 80px;
-		max-height: 80px;
-		object-fit: contain;
-	}
+				const closeDialog = () => {
+					dialog.close();
+					document.body.style.overflow = "";
+				};
 
-	h3 {
-		grid-area: h3;
-		text-align: center;
-	}
+				btn?.addEventListener("click", () => {
+					dialog.showModal();
+					document.body.style.overflow = "hidden";
+				});
+				closeBtn?.addEventListener("click", closeDialog);
 
-	p {
-		grid-area: slot;
-		padding: 1rem 0;
-	}
+				// Cierra al click fuera del dialog
+				dialog?.addEventListener("click", (e) => {
+					console.log(e.target);
+					if (e.target === dialog) closeDialog;
+				});
+			});
+		});
+	</script>
 
-	button {
-		grid-area: btn;
-		display: inline-flex;
-		text-align: center;
-		padding: 16px 24px;
-		background-color: #3d6761;
-		color: #eee;
-		border-radius: 50px;
-		width: fit-content;
-		align-items: center;
-		border: none;
-		font-size: 1.1rem;
-	}
-
-	@media (min-width: 600px) {
+	<style>
 		.product {
+			background-color: #eee;
+			border-radius: 16px;
+			border: 1px solid #dde;
+			display: grid;
 			grid-template:
-				"img h3"
-				"slot slot"
-				"btn btn" / min-content auto;
+				"h3"
+				"slot"
+				"btn";
 			padding: 30px;
+			justify-items: center;
+			column-gap: 10px;
+			align-items: center;
 		}
-		img {
-			display: block;
+
+		.product__icon {
+			grid-area: img;
+			display: none;
+			max-width: 80px;
+			max-height: 80px;
+			object-fit: contain;
 		}
-	}
-</style>
+
+		h3 {
+			grid-area: h3;
+			text-align: center;
+		}
+
+		p {
+			grid-area: slot;
+			padding: 1rem 0;
+		}
+
+		button {
+			border: none;
+			border-radius: 50px;
+			font-weight: 500;
+			background-color: #3d6761;
+			color: #eee;
+		}
+
+		.btn-info {
+			padding: 16px 24px;
+			grid-area: btn;
+			display: inline-flex;
+			text-align: center;
+			width: fit-content;
+			align-items: center;
+			font-size: 1.1rem;
+		}
+
+		.dialog-close {
+			font-size: 2rem;
+			padding: 5px 12px;
+			translate: -2rem -2rem;
+			position: fixed;
+		}
+
+		.product-dialog {
+			border: none;
+			border-radius: 15px;
+			margin: auto;
+		}
+
+		.product-dialog--content {
+			padding: 20px;
+		}
+
+		.product-dialog img {
+			width: 70vw;
+			height: auto;
+		}
+
+		@media (min-width: 600px) {
+			.product {
+				grid-template:
+					"img h3"
+					"slot slot"
+					"btn btn" / min-content auto;
+				padding: 30px;
+			}
+			.product__icon {
+				display: block;
+			}
+
+			.product-dialog img {
+				width: auto;
+				height: 80vh;
+			}
+		}
+	</style>
+</article>
